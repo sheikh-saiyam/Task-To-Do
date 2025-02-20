@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { GoTasklist } from "react-icons/go";
 import { MdDashboard } from "react-icons/md";
+import AddTaskModal from "../Task/AddTaskModal";
 
 const Sidebar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div>
       {/* Header */}
@@ -18,11 +21,19 @@ const Sidebar = () => {
           <MdDashboard size={25} />
           Dashboard
         </div>
-        {/* Add Task */}
-        <div className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest">
+        {/* Add Task Button */}
+        <div
+          className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-300"
+          onClick={() => setIsModalOpen(true)} // Open modal on click
+        >
           <GoTasklist size={25} />
           Add Task
         </div>
+        {/* Add Task Modal */}
+        <AddTaskModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       </div>
     </div>
   );
