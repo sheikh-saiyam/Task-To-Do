@@ -21,7 +21,7 @@ const HomeLayout = () => {
         <Sidebar onToggleSidebar={toggleSidebar} />
       </div>
       {/* right side dashboard content */}
-      <div className="w-full bg-[#f6f6f6]">
+      <div className="w-full bg-gray-100">
         {/* Mobile menu open & close button */}
         <button
           className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-28 right-4 z-50"

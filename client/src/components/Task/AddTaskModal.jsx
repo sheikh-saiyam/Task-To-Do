@@ -2,9 +2,11 @@ import { RxCross1 } from "react-icons/rx";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useTasks from "../../hooks/useTasks";
 
 const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
   const { user } = useAuth();
+  const [, , refetch] = useTasks();
   const api_url = import.meta.env.VITE_API_URL;
 
   // Function for post task in db --->
@@ -26,6 +28,8 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
       const { data } = await axios.post(`${api_url}/add-task`, task);
       // Show Success Modal --->
       if (data.insertedId) {
+        refetch();
+        form.reset();
         setIsModalOpen(false);
         Swal.fire({
           icon: "success",
