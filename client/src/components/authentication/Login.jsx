@@ -8,11 +8,13 @@ const LoginModal = ({ isModalOpen, setIsModalOpen }) => {
   const navigate = useNavigate();
   const navigatePath = location.state?.pathname || "/";
   const { setUser, googleLogin } = useAuth();
+  
   // function for google login --->
   const handleGoogleLogin = () => {
     googleLogin()
       .then(async (result) => {
         const currentUser = result.user;
+
         // save user data in db ----->
         // await axios.post(`${api_url}/users`, {
         //   email: currentUser.email,
@@ -39,6 +41,7 @@ const LoginModal = ({ isModalOpen, setIsModalOpen }) => {
         });
       });
   };
+
   return (
     <div
       className={`${
