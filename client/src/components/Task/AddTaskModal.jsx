@@ -1,13 +1,43 @@
 import { RxCross1 } from "react-icons/rx";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
-  // Post task in db --->
-  const handleSubmit = (e) => {
+  const { user } = useAuth();
+  const api_url = import.meta.env.VITE_API_URL;
+
+  // Function for post task in db --->
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
-    const task = { title, description };
-    console.table(task);
+    const task = {
+      title,
+      description,
+      category: "to-do",
+      timestamp: new Date().toLocaleString(),
+      email: user.email,
+      username: user.displayName,
+    };
+    try {
+      // Post task in db --->
+      const { data } = await axios.post(`${api_url}/add-task`, task);
+      // Show Success Modal --->
+      if (data.insertedId) {
+        setIsModalOpen(false);
+        Swal.fire({
+          icon: "success",
+          title: "Task Added In To-Do List",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    }
   };
   return (
     <div
