@@ -3,6 +3,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import axios from "axios";
 import Loader from "../Loader/Loader";
 import useTasks from "../../hooks/useTasks";
+import { MdDeleteForever } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
@@ -65,6 +68,38 @@ const TasksContainer = () => {
     }
   };
 
+  // Delete task function
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0083ff",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const { data } = await axios.delete(`${api_url}/delete-task/${id}`);
+          if (data.deletedCount) {
+            refetch();
+            Swal.fire({
+              title: "Your Task Deleted",
+              icon: "success",
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: error.message,
+          });
+        }
+      }
+    });
+  };
+
+  // Show loader
   if (isLoading) return <Loader />;
 
   return (
@@ -100,6 +135,24 @@ const TasksContainer = () => {
                         <h3 className="text-lg mt-2 font-normal tracking-wide text-gray-700 whitespace-pre-line">
                           {task.description}
                         </h3>
+                        {/* Delete And Update Btn */}
+                        <div className="mt-4 flex items-start gap-4 w-full">
+                          {/* Update Btn */}
+                          <button
+                            className="btn tooltip hover:bg-white text-blue-500"
+                            data-tip="Update Task"
+                          >
+                            <FaRegEdit size={30} />
+                          </button>
+                          {/* Delete Btn */}
+                          <button
+                            onClick={() => handleDelete(task._id)}
+                            className="btn tooltip hover:bg-white text-red-500"
+                            data-tip="Delete Task"
+                          >
+                            <MdDeleteForever size={30} />
+                          </button>
+                        </div>
                       </div>
                     )}
                   </Draggable>
