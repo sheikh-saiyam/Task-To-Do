@@ -5,7 +5,7 @@ import { SlLogout } from "react-icons/sl";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   return (
-    <nav className="w-11/12 mx-auto py-4 flex items-center justify-between relative rounded-full">
+    <nav className="px-[20px] mx-auto py-4 flex items-center justify-between relative border-b-2 border-white">
       {/* logo */}
       <img
         src="https://i.ibb.co.com/TxNBJ5pW/todo.png"
@@ -16,10 +16,10 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         {/* nav links */}
         <ul className="items-center gap-[20px] text-[1rem] text-[#424242] flex">
-          <li className="before:w-0 hover:before:w-full before:bg-primary before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] hover:underline underline-offset-2 text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
-            home
+          <li className="before:w-full hover:before:w-full before:bg-white before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
+            dashboard
           </li>
-          <li className="before:w-0 hover:before:w-full before:bg-primary before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] hover:underline underline-offset-2 text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
+          <li className="before:w-0 hover:before:w-full before:bg-white before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
             blogs
           </li>
         </ul>
