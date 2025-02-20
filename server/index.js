@@ -26,6 +26,7 @@ async function run() {
     // All DB & Collections --->
     const db = client.db("task_todo_DB");
     const usersCollection = db.collection("users");
+    const tasksCollection = db.collection("tasks");
 
     // <----- All CRUD FUNCTIONALITY ----->
 
@@ -42,6 +43,13 @@ async function run() {
       res.send(result);
     });
 
+    // Save task in db --->
+    app.post("/add-task", async (req, res) => {
+      const task = req.body;
+      const result = await tasksCollection.insertOne(task);
+      res.send(result);
+    });
+    
     // <----- All CRUD FUNCTIONALITY ----->
 
     // Send a ping to confirm a successful connection
