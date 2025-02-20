@@ -13,10 +13,12 @@ const Sidebar = () => {
       </div>
       {/* NavLinks */}
       <div className="mt-4 flex flex-col items-center gap-4">
+        {/* Dashboard */}
         <div className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer">
           <MdDashboard size={25} />
           Dashboard
         </div>
+        {/* Add Task */}
         <div className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest">
           <GoTasklist size={25} />
           Add Task

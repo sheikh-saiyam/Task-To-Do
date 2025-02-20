@@ -3,6 +3,7 @@ import { MdClose } from "react-icons/md";
 import { IoMenu } from "react-icons/io5";
 import Sidebar from "./../components/Sidebar/Sidebar";
 import useAuth from "../hooks/useAuth";
+import TasksContainer from "../components/Task/TasksContainer";
 
 const HomeLayout = () => {
   const { user } = useAuth();
@@ -19,7 +20,6 @@ const HomeLayout = () => {
       >
         <Sidebar onToggleSidebar={toggleSidebar} />
       </div>
-      {/* left side navigation panel */}
       {/* right side dashboard content */}
       <div className="w-full bg-[#f6f6f6]">
         {/* Mobile menu open & close button */}
@@ -45,9 +45,12 @@ const HomeLayout = () => {
               organized and boost your productivity!
             </h1>
           </div>
+          {/* Tasks Container */}
+          <div className="mt-8">
+            <TasksContainer></TasksContainer>
+          </div>
         </div>
       </div>
-      {/* right side dashboard content */}
     </div>
   );
 };
