@@ -72,7 +72,13 @@ async function run() {
       res.send(result);
     });
 
-
+    // Delete a task --->
+    app.delete("/delete-tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await tasksCollection.deleteOne(query);
+      res.send(result);
+    });
     // <----- All CRUD FUNCTIONALITY ----->
 
     // Send a ping to confirm a successful connection
