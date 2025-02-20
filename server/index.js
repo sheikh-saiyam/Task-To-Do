@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -49,6 +50,28 @@ async function run() {
       const result = await tasksCollection.insertOne(task);
       res.send(result);
     });
+
+    // Get tasks based on email --->
+    app.get("/my-tasks/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await tasksCollection.find({ email }).toArray();
+      res.send(result);
+    });
+
+    // Update task category --->
+    app.patch("/update-task-category/:id", async (req, res) => {
+      const id = req.params.id;
+      const { category } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updatedCategory = {
+        $set: {
+          category: category,
+        },
+      };
+      const result = await tasksCollection.updateOne(filter, updatedCategory);
+      res.send(result);
+    });
+
 
     // <----- All CRUD FUNCTIONALITY ----->
 
