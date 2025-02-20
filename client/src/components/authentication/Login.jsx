@@ -6,9 +6,9 @@ import Swal from "sweetalert2";
 const LoginModal = ({ isModalOpen, setIsModalOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const navigatePath = location.state?.pathname || "/";
+  const navigatePath = location.state?.pathname || "/dashboard";
   const { setUser, googleLogin } = useAuth();
-  
+
   // function for google login --->
   const handleGoogleLogin = () => {
     googleLogin()
