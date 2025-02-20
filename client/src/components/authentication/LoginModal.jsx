@@ -1,9 +1,9 @@
+import { RxCross1 } from "react-icons/rx";
 import useAuth from "../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
-
-const Login = () => {
+const LoginModal = ({ isModalOpen, setIsModalOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const api_url = import.meta.env.VITE_API_URL;
@@ -26,7 +26,7 @@ const Login = () => {
 
         setUser(currentUser);
         navigate(navigatePath);
-
+        
         // for login modal
         Swal.fire({
           icon: "success",
@@ -44,27 +44,39 @@ const Login = () => {
         });
       });
   };
+
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-base-200 fixed top-0 left-0 z-50">
+    <div
+      className={`${
+        isModalOpen ? "visible" : "invisible"
+      } w-full h-screen fixed top-0 left-0 z-[200000000] bg-[#0000002a] transition-all duration-300 flex items-center justify-center`}
+    >
       <div
-        id="login"
-        className="w-[95%] sm:w-[85%] md:w-[65%] lg:w-[55%] xl:w-[40%] max-w-[640px] bg-[#fff] rounded-lg transition-all duration-300 border border-[#d1d1d1] p-8"
+        className={`${
+          isModalOpen ? "scale-[1] opacity-100" : "scale-[0] opacity-0"
+        } w-[90%] sm:w-[80%] md:w-[35%] bg-[#fff] rounded-lg transition-all duration-300 mx-auto mt-8`}
       >
-        <div className="w-full flex p-4 justify-center border-b border-[#d1d1d1]">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold">Welcome To Task-To-Do!</h1>
-            <h3 className="mt-1 text-lg font-medium">
-              Stay organized and boost your productivity with ease. Manage your
-              tasks effortlessly and stay ahead of your goals. To access the
-              app, you must be logged in.
+        <div className="w-full flex p-4 justify-between border-b border-[#d1d1d1]">
+          <div>
+            <h1 className="text-[1.5rem] font-bold">Welcome To Task-To-Do!</h1>
+            <h3 className="mt-1 text-base font-medium">
+              Stay organized and boost your productivity—sign in to manage your
+              tasks effortlessly.
             </h3>
           </div>
+          <RxCross1
+            className="p-2 text-[2.5rem] hover:bg-[#e7e7e7] rounded-full transition-all duration-300 cursor-pointer"
+            onClick={() => setIsModalOpen(false)}
+          />
         </div>
         {/* Google Login Button */}
         <div className="my-4 flex justify-center items-center">
           <button
-            onClick={() => handleGoogleLogin()}
-            className="bg-primary text-white rounded-md py-[5px] px-6 flex items-center gap-[10px] text-[1rem] hover:bg-[#006eff] transition-all duration-500"
+            onClick={() => {
+              handleGoogleLogin();
+              setIsModalOpen(false);
+            }}
+            className="bg-[#3B9DF8] text-white rounded-md py-[5px] px-6 flex items-center gap-[10px] text-[1rem] hover:bg-blue-500 transition-all duration-300"
           >
             <div className="p-2 rounded-full bg-white">
               <img
@@ -81,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginModal;

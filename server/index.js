@@ -42,9 +42,6 @@ async function run() {
       res.send(result);
     });
 
-
-    
-
     // <----- All CRUD FUNCTIONALITY ----->
 
     // Send a ping to confirm a successful connection
