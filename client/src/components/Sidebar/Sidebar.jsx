@@ -17,13 +17,13 @@ const Sidebar = () => {
       {/* NavLinks */}
       <div className="mt-4 flex flex-col items-center gap-4">
         {/* Dashboard */}
-        <div className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer">
+        <div className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer dark:text-[#020b3b]">
           <MdDashboard size={25} />
           Dashboard
         </div>
         {/* Add Task Button */}
         <div
-          className="bg-tansparent text-white font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-500 hover:text-primary hover:bg-white"
+          className="bg-transparent text-white font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-500 hover:text-primary hover:bg-white hover:dark:text-[#020b3b]"
           onClick={() => setIsModalOpen(true)}
         >
           <GoTasklist size={25} />

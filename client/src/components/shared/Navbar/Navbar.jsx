@@ -1,6 +1,7 @@
 import useAuth from "../../../hooks/useAuth";
 import { IoMenu } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -10,7 +11,7 @@ const Navbar = () => {
       <img
         src="https://i.ibb.co.com/TxNBJ5pW/todo.png"
         alt="Task To Do logo"
-        className="w-[70px] shadow rounded-[20px] shadow-primary"
+        className="w-[70px] shadow rounded-[20px] shadow-primary dark:shadow-none"
       />
 
       <div className="flex items-center gap-6">
@@ -21,7 +22,7 @@ const Navbar = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn flex items-center bg-white border-none duration-300 hover:text-white rounded-full avatar text-primary hover:bg-[#0f9fff]"
+                className="btn flex items-center bg-white border-none duration-300 hover:text-white rounded-full avatar text-primary dark:text-[#020b3b] dark:hover:bg-[#d3d3d3] hover:bg-[#0f9fff]"
               >
                 <div>
                   <span>
@@ -56,7 +57,7 @@ const Navbar = () => {
                     <div className="w-full mt-3">
                       <button
                         onClick={logOut}
-                        className="btn  duration-300  rounded w-full btn-sm bg-white text-primary hover:bg-primary hover:text-white border-primary hover tracking-wide text-lg font-semibold"
+                        className="btn  duration-300  rounded w-full btn-sm bg-white text-primary hover:bg-primary hover:text-white border-primary hover dark:hover:bg-[#020825] dark:border-[#020825] tracking-wide text-lg font-semibold dark:text-[#020825] dark:hover:text-white"
                       >
                         <SlLogout /> Logout
                       </button>
@@ -66,6 +67,7 @@ const Navbar = () => {
               </ul>
             </div>
           )}
+          <ThemeToggle />
         </div>
       </div>
     </nav>

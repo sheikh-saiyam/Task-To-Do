@@ -112,7 +112,7 @@ const TasksContainer = () => {
   );
 
   // Show loader
-  if (isLoading) return <div className="bg-white h-screen" />;
+  if (isLoading) return <div className="bg-white h-screen dark:bg-[#020b3b]" />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -123,9 +123,9 @@ const TasksContainer = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="p-6 bg-white rounded-lg w-full shadow-sm h-fit min-h-[120px]"
+                className="p-6 mb-2 bg-white dark:bg-[#020b3b] rounded-lg w-full shadow-sm h-fit min-h-[120px]"
               >
-                <h1 className="text-2xl font-semibold tracking-wide capitalize">
+                <h1 className="text-2xl font-semibold tracking-wide capitalize dark:text-white">
                   {category.replace("-", " ")}
                 </h1>
                 {taskData[category].map((task, index) => (
@@ -139,12 +139,12 @@ const TasksContainer = () => {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="bg-gray-200 p-4 mt-4 rounded-md drop-shadow shadow shadow-gray-300 cursor-pointer border-gray-200"
+                        className="bg-gray-200 dark:bg-[#020825] dark:text-white p-4 dark:shadow-none mt-4 rounded-md drop-shadow shadow shadow-gray-300 cursor-pointer border-gray-200"
                       >
-                        <h1 className="text-xl md:text-2xl font-semibold tracking-wider">
+                        <h1 className="text-xl md:text-2xl font-semibold tracking-wider dark:font-bold">
                           {task.title}
                         </h1>
-                        <h3 className="text-lg mt-2 font-normal tracking-wide text-gray-700 whitespace-pre-line">
+                        <h3 className="text-lg mt-2 font-normal tracking-wide text-gray-700 whitespace-pre-line dark:text-white dark:font-medium">
                           {task.description}
                         </h3>
                         {/* Delete And Update Btn */}

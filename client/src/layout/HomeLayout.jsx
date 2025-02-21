@@ -16,7 +16,7 @@ const HomeLayout = () => {
       <div
         className={`fixed xl:relative top-0 ${
           isSidebarOpen ? "left-0" : "-left-full"
-        } xl:left-0 min-w-2/12 xl:w-3/12 max-w-[300px] md:max-w-[360px] min-h-screen  bg-primary p-6 transition-all duration-500 z-50`}
+        } xl:left-0 min-w-2/12 xl:w-3/12 max-w-[300px] md:max-w-[360px] min-h-screen  bg-primary dark:bg-[#020b3b] p-6 transition-all duration-500 z-50`}
       >
         <Sidebar onToggleSidebar={toggleSidebar} />
       </div>
@@ -24,7 +24,7 @@ const HomeLayout = () => {
       <div className="w-full bg-gray-100">
         {/* Mobile menu open & close button */}
         <button
-          className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-[26px] right-[150px] rounded-xl z-50 tooltip tooltip-bottom"
+          className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-[26px] right-[190px] rounded-xl z-50 tooltip tooltip-bottom"
           data-tip="Open Sidebar"
           onClick={toggleSidebar}
         >
@@ -35,9 +35,9 @@ const HomeLayout = () => {
           )}
         </button>
         {/* Mobile menu open & close button */}
-        <div className="p-8 bg-base-200 h-full">
+        <div className="p-8 bg-base-200 h-full dark:bg-[#020825]">
           {/* Header */}
-          <div>
+          <div className="dark:text-white duration-500">
             <h1 className="text-2xl md:text-3xl font-bold tracking-widest">
               Welcome, {user?.displayName}
             </h1>
@@ -48,7 +48,7 @@ const HomeLayout = () => {
           </div>
           {/* Tasks Container */}
           <div className="mt-8">
-            <TasksContainer></TasksContainer>
+            <TasksContainer />
           </div>
         </div>
       </div>
