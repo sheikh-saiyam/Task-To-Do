@@ -14,16 +14,6 @@ const Navbar = () => {
       />
 
       <div className="flex items-center gap-6">
-        {/* nav links */}
-        <ul className="items-center gap-[20px] text-[1rem] text-[#424242] flex">
-          <li className="before:w-full hover:before:w-full before:bg-white before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
-            dashboard
-          </li>
-          <li className="before:w-0 hover:before:w-full before:bg-white before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] text-white transition-all duration-300 before:left-0 cursor-pointer capitalize font-semibold text-lg">
-            blogs
-          </li>
-        </ul>
-
         {/* Profile */}
         <div className="items-center gap-[10px] flex">
           {user && (
