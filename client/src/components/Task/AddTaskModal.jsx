@@ -58,7 +58,7 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
           <div>
             <h1 className="mt-[2px] text-[1.5rem] font-bold">Add A Task</h1>
             <h3 className="mt-1 text-base font-medium">
-              tay organized and manage your tasks efficiently. Fill in the
+              Stay organized and manage your tasks efficiently. Fill in the
               details below to add a new task.
             </h3>
           </div>

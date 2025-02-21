@@ -24,7 +24,7 @@ const Sidebar = () => {
         {/* Add Task Button */}
         <div
           className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-300"
-          onClick={() => setIsModalOpen(true)} // Open modal on click
+          onClick={() => setIsModalOpen(true)}
         >
           <GoTasklist size={25} />
           Add Task
