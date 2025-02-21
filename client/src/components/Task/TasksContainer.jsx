@@ -9,8 +9,6 @@ import UpdateTaskModal from "./UpdateTaskModal";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
-  const [selectedTask, setSelectedTask] = useState(null);
-
   // Get all tasks --->
   const [tasks, isLoading, refetch] = useTasks();
 

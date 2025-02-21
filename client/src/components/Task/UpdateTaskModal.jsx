@@ -17,7 +17,7 @@ const UpdateTaskModal = ({ task }) => {
     const description = form.description.value;
     const category = selectedItem;
     try {
-      const { data } = await axios.patch(`${api_url}/update-task/${task._id}`, {
+      const { data } = await axios.put(`${api_url}/update-task/${task._id}`, {
         title,
         description,
         category,
