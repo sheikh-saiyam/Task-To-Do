@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useState, useEffect, useCallback } from "react";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import axios from "axios";
 import useTasks from "../../hooks/useTasks";
 import { MdDeleteForever } from "react-icons/md";
@@ -9,7 +9,8 @@ import UpdateTaskModal from "./UpdateTaskModal";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
-  // Get all tasks --->
+
+  // Get all tasks
   const [tasks, isLoading, refetch] = useTasks();
 
   // State for tasks
@@ -31,72 +32,89 @@ const TasksContainer = () => {
   }, [tasks]);
 
   // Handle Drag End
-  const onDragEnd = async (result) => {
-    const { source, destination } = result;
-    if (!destination) return;
+  const onDragEnd = useCallback(
+    async (result) => {
+      const { source, destination } = result;
+      if (!destination) return;
 
-    const sourceCategory = source.droppableId;
-    const destCategory = destination.droppableId;
+      const sourceCategory = source.droppableId;
+      const destCategory = destination.droppableId;
 
-    if (sourceCategory === destCategory && source.index === destination.index) {
-      return;
-    }
-
-    // Copy state
-    const updatedTasks = { ...taskData };
-
-    // Remove task from source
-    const [movedTask] = updatedTasks[sourceCategory].splice(source.index, 1);
-
-    // Update category & add to destination
-    movedTask.category = destCategory;
-    updatedTasks[destCategory].splice(destination.index, 0, movedTask);
-
-    // Update State
-    setTaskData(updatedTasks);
-
-    // Update category in Database
-    const { data } = await axios.patch(
-      `${api_url}/update-task-category/${movedTask._id}`,
-      {
-        category: destCategory,
+      if (
+        sourceCategory === destCategory &&
+        source.index === destination.index
+      ) {
+        return;
       }
-    );
-    if (data.modifiedCount) {
-      refetch();
-    }
-  };
+
+      // Optimize state update
+      setTaskData((prev) => {
+        const updatedTasks = { ...prev };
+
+        // Remove task from source
+        const [movedTask] = updatedTasks[sourceCategory].splice(
+          source.index,
+          1
+        );
+
+        // Update category & add to destination
+        movedTask.category = destCategory;
+        updatedTasks[destCategory].splice(destination.index, 0, movedTask);
+
+        return updatedTasks;
+      });
+
+      // Update category in Database
+      try {
+        const { data } = await axios.patch(
+          `${api_url}/update-task-category/${result.draggableId}`,
+          {
+            category: destCategory,
+          }
+        );
+        if (data.modifiedCount) {
+          refetch();
+        }
+      } catch (error) {
+        console.error("Failed to update task category:", error);
+      }
+    },
+    [api_url, refetch]
+  );
 
   // Delete task function
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#0083ff",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const { data } = await axios.delete(`${api_url}/delete-task/${id}`);
-          if (data.deletedCount) {
-            refetch();
+  const handleDelete = useCallback(
+    async (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0083ff",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const { data } = await axios.delete(`${api_url}/delete-task/${id}`);
+            if (data.deletedCount) {
+              refetch();
+              Swal.fire({
+                title: "Your Task Deleted",
+                icon: "success",
+              });
+            }
+          } catch (error) {
             Swal.fire({
-              title: "Your Task Deleted",
-              icon: "success",
+              icon: "error",
+              title: error.message,
             });
           }
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: error.message,
-          });
         }
-      }
-    });
-  };
+      });
+    },
+    [api_url, refetch]
+  );
 
   // Show loader
   if (isLoading) return <div className="bg-white h-screen" />;
