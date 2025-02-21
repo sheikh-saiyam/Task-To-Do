@@ -1,11 +1,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
 import useTasks from "../../hooks/useTasks";
 import { useState } from "react";
 
 const UpdateTaskModal = ({ task }) => {
-  const { user } = useAuth();
   const [, , refetch] = useTasks();
   const api_url = import.meta.env.VITE_API_URL;
   const categoryOption = ["to-do", "in-progress", "done"];
