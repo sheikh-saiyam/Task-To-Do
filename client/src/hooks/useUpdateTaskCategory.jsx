@@ -6,11 +6,12 @@ const useUpdateTaskCategory = () => {
   const api_url = import.meta.env.VITE_API_URL;
 
   return useMutation({
-    mutationFn: async ({ taskId, newCategory }) => {
+    mutationFn: async ({ taskId, newCategory, newTimestamp }) => {
       const { data } = await axios.patch(
         `${api_url}/update-task-category/${taskId}`,
         {
           category: newCategory,
+          timestamp: newTimestamp,
         }
       );
       return data;

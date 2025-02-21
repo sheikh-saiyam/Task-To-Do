@@ -54,18 +54,22 @@ async function run() {
     // Get tasks based on email --->
     app.get("/my-tasks/:email", async (req, res) => {
       const email = req.params.email;
-      const result = await tasksCollection.find({ email }).toArray();
+      const result = await tasksCollection
+        .find({ email })
+        .sort({ timestamp: -1 })
+        .toArray();
       res.send(result);
     });
 
     // Update task category --->
     app.patch("/update-task-category/:id", async (req, res) => {
       const id = req.params.id;
-      const { category } = req.body;
+      const { category, timestamp } = req.body;
       const filter = { _id: new ObjectId(id) };
       const updatedCategory = {
         $set: {
           category: category,
+          timestamp: timestamp,
         },
       };
       const result = await tasksCollection.updateOne(filter, updatedCategory);

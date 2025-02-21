@@ -1,7 +1,6 @@
 import Login from "../components/authentication/Login";
 import Loader from "../components/Loader/Loader";
 import useAuth from "../hooks/useAuth";
-// import Loader from "../components/Loader/Loader";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();

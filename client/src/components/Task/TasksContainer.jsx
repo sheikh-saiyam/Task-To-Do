@@ -72,6 +72,7 @@ const TasksContainer = () => {
       updateTaskCategory.mutate({
         taskId: draggableId,
         newCategory: destCategory,
+      
       });
     },
     [updateTaskCategory, setTaskData]
