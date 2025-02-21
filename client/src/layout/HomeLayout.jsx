@@ -24,7 +24,8 @@ const HomeLayout = () => {
       <div className="w-full bg-gray-100">
         {/* Mobile menu open & close button */}
         <button
-          className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-28 right-4 z-50"
+          className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-[26px] right-[150px] rounded-xl z-50 tooltip tooltip-bottom"
+          data-tip="Open Sidebar"
           onClick={toggleSidebar}
         >
           {isSidebarOpen ? (

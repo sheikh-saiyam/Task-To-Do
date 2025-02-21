@@ -23,7 +23,7 @@ const Sidebar = () => {
         </div>
         {/* Add Task Button */}
         <div
-          className="bg-white text-primary font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-300"
+          className="bg-tansparent text-white font-semibold border-2 border-white text-lg py-1 px-4 flex items-center gap-2 w-full cursor-pointer tracking-widest hover:underline underline-offset-2 duration-500 hover:text-primary hover:bg-white"
           onClick={() => setIsModalOpen(true)}
         >
           <GoTasklist size={25} />
