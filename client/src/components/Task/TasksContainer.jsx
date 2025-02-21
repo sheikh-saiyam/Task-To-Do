@@ -6,6 +6,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UpdateTaskModal from "./UpdateTaskModal";
+import useUpdateTaskCategory from "../../hooks/useUpdateTaskCategory";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
@@ -32,9 +33,11 @@ const TasksContainer = () => {
   }, [tasks]);
 
   // Handle Drag End
+  const updateTaskCategory = useUpdateTaskCategory(); // Use custom hook
+
   const onDragEnd = useCallback(
-    async (result) => {
-      const { source, destination } = result;
+    (result) => {
+      const { source, destination, draggableId } = result;
       if (!destination) return;
 
       const sourceCategory = source.droppableId;
@@ -47,7 +50,7 @@ const TasksContainer = () => {
         return;
       }
 
-      // Optimize state update
+      // Optimistically update UI
       setTaskData((prev) => {
         const updatedTasks = { ...prev };
 
@@ -57,29 +60,20 @@ const TasksContainer = () => {
           1
         );
 
-        // Update category & add to destination
+        // Update category & insert into destination
         movedTask.category = destCategory;
         updatedTasks[destCategory].splice(destination.index, 0, movedTask);
 
         return updatedTasks;
       });
 
-      // Update category in Database
-      try {
-        const { data } = await axios.patch(
-          `${api_url}/update-task-category/${result.draggableId}`,
-          {
-            category: destCategory,
-          }
-        );
-        if (data.modifiedCount) {
-          refetch();
-        }
-      } catch (error) {
-        console.error("Failed to update task category:", error);
-      }
+      // API update in background
+      updateTaskCategory.mutate({
+        taskId: draggableId,
+        newCategory: destCategory,
+      });
     },
-    [api_url, refetch]
+    [updateTaskCategory, setTaskData]
   );
 
   // Delete task function

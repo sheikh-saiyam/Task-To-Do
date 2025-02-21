@@ -39,7 +39,7 @@ const UpdateTaskModal = ({ task }) => {
         <div className="w-full flex justify-between items-stretch text-black border-b border-[#d1d1d1]">
           <div>
             <h1 className="mt-[2px] text-[1.5rem] font-bold text-left">
-              Add A Task
+              Update Task
             </h1>
             <h3 className="mt-2 mb-3 text-base font-medium">
               Update your task details below and save changes.
