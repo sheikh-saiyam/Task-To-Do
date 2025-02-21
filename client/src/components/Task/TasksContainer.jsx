@@ -32,9 +32,10 @@ const TasksContainer = () => {
     }
   }, [tasks]);
 
-  // Handle Drag End
-  const updateTaskCategory = useUpdateTaskCategory(); // Use custom hook
+  // Use custom hook --> useUpdateTaskCategory
+  const updateTaskCategory = useUpdateTaskCategory();
 
+  // Handle Drag End
   const onDragEnd = useCallback(
     (result) => {
       const { source, destination, draggableId } = result;
