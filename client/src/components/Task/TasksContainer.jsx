@@ -72,7 +72,7 @@ const TasksContainer = () => {
       updateTaskCategory.mutate({
         taskId: draggableId,
         newCategory: destCategory,
-      
+        newTimestamp: new Date().toLocaleString(),
       });
     },
     [updateTaskCategory, setTaskData]
