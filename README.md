@@ -67,3 +67,34 @@
 ```
 
 ---
+
+## 📦 NPM Packages
+
+### Client
+
+```json
+  "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
+    "@tanstack/react-query": "^5.66.8",
+    "axios": "^1.7.9",
+    "firebase": "^11.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "6.28.0",
+    "sweetalert2": "^11.17.2"
+  }
+```
+
+### Server
+
+```json
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.13.0"
+  }
+```
+
+---
