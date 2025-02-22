@@ -98,3 +98,15 @@
 ```
 
 ---
+
+## 🔌 API Endpoints
+
+| Method | Endpoint                    | Description              |
+| ------ | --------------------------- | ------------------------ |
+| POST   | `/add-task`                 | Add a new task           |
+| GET    | `/my-tasks/email@gmail.com` | Get all tasks for a user |
+| PATCH  | `/update-task-category/:id` | Update task category     |
+| PUT    | `/update-task/:id`          | Update task details      |
+| DELETE | `/delete-task/:id`          | Delete a task            |
+
+---
