@@ -18,7 +18,7 @@ const HomeLayout = () => {
           isSidebarOpen ? "left-0" : "-left-full"
         } xl:left-0 min-w-2/12 xl:w-3/12 max-w-[300px] md:max-w-[360px] min-h-screen  bg-primary dark:bg-[#020b3b] p-6 transition-all duration-500 z-50`}
       >
-        <Sidebar onToggleSidebar={toggleSidebar} />
+        <Sidebar onToggleSidebar={toggleSidebar} setIsSidebarOpen={setIsSidebarOpen}/>
       </div>
       {/* right side dashboard content */}
       <div className="w-full bg-gray-100">
