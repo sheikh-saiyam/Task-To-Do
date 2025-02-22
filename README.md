@@ -30,6 +30,26 @@
 
 ---
 
+## 🌐 Tech Stack
+
+### Frontend:
+
+- **React.js (Vite)** – Fast and efficient frontend framework.
+
+- **Tailwind CSS & DaisyUI** – Styling for a clean UI.
+
+- **@hello-pangea/dnd** – Drag-and-drop functionality.
+
+- **Firebase Authentication** – Secure user authentication.
+
+### Backend:
+
+- **Express.js** – Server-side handling.
+
+- **MongoDB** – Database for storing tasks.
+
+---
+
 ## ⚙️ JSON Data Structure
 
 ### Task Data
