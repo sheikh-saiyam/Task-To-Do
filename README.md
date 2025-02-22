@@ -98,8 +98,9 @@
 ```
 
 ---
-
 ## 🔌 API Endpoints
+
+<div style="width:100%">
 
 | Method | Endpoint                    | Description              |
 | ------ | --------------------------- | ------------------------ |
@@ -108,5 +109,8 @@
 | PATCH  | `/update-task-category/:id` | Update task category     |
 | PUT    | `/update-task/:id`          | Update task details      |
 | DELETE | `/delete-task/:id`          | Delete a task            |
+
+</div>
+
 
 ---
