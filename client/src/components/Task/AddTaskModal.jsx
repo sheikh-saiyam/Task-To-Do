@@ -15,6 +15,9 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
+    if (title.length > 50) {
+      return Swal.fire("Title should be less than 50 characters");
+    }
     const task = {
       title,
       description,
