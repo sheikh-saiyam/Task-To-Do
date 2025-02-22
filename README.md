@@ -82,7 +82,7 @@
 
 ## 📦 NPM Packages
 
-### Client
+### Client dependencies:
 
 ```json
   "dependencies": {
@@ -98,7 +98,7 @@
   }
 ```
 
-### Server
+### Server dependencies:
 
 ```json
   "dependencies": {
