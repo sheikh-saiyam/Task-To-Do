@@ -29,3 +29,21 @@
 - 🌙 Dark Mode: Toggle between light and dark mode.
 
 ---
+
+## ⚙️ JSON Data Structure
+
+### Task Data
+
+```json
+{
+"_id": "67b726f87d1fec95fdb74656",
+"title": "Research Project",
+"description": "Gather requirements and create initial documentation....",
+"category": "done",
+"timestamp": "2/21/2025, 8:35:47 PM",
+"email": "yourname@gmail.com",
+"username": "Your Name"
+},
+```
+
+---
