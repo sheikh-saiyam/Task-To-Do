@@ -98,9 +98,8 @@
 ```
 
 ---
-## 🔌 API Endpoints
 
-<div style="width:100%">
+## 🔌 API Endpoints
 
 | Method | Endpoint                    | Description              |
 | ------ | --------------------------- | ------------------------ |
@@ -110,7 +109,68 @@
 | PUT    | `/update-task/:id`          | Update task details      |
 | DELETE | `/delete-task/:id`          | Delete a task            |
 
-</div>
+---
 
+## ⚙️ Installation & Setup
+
+#### 1. Clone the repository:
+
+```sh
+git clone https://github.com/sheikh-saiyam/Task-To-Do
+cd Task-To-Do
+```
+
+#### 2. Install Dependencies:
+
+- Frontend
+
+```sh
+cd client
+pnpm install  # Or use npm install
+```
+
+- Backend
+
+```sh
+cd server
+pnpm install  # Or use npm install
+```
+
+#### 3. Configure Environment Variables
+
+- Create a `.env.local` file in the **front-end** directory and add:
+
+```env
+   VITE_apiKey=your_firebase_apiKey
+   VITE_authDomain=your_firebase_authDomain
+   VITE_projectId=your_firebase_projectId
+   VITE_storageBucket=your_firebase_storageBucket
+   VITE_messagingSenderId=your_firebase_messagingSenderId
+   VITE_appId=your_firebase_appId
+   VITE_API_URL=your_server_api_link
+```
+
+- Create a `.env` file in the **back-end** directory and add:
+
+```env
+   DB_USER=your_db_user_name
+   DB_PASS=your_db_user_password
+```
+
+#### 4. Run the Application
+
+#### Start the Frontend
+
+```sh
+cd client
+pnpm dev  # Or use npm run dev
+```
+
+#### Start the Backend
+
+```sh
+cd server
+pnpm start  # Or use npm start
+```
 
 ---
