@@ -174,3 +174,11 @@ pnpm start  # Or use npm start
 ```
 
 ---
+
+## 📷 Project Home Page Image
+
+![Home Page](https://i.ibb.co.com/TqFNnBDQ/Screenshot-2025-02-22-115405.png)
+
+## 🤝 Contributing
+
+- Contributions are welcome! Feel free to open an issue or submit a pull request.
