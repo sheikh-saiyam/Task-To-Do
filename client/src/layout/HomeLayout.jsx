@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { IoMenu } from "react-icons/io5";
-import Sidebar from "./../components/Sidebar/Sidebar";
 import useAuth from "../hooks/useAuth";
+import Sidebar from "./../components/Sidebar/Sidebar";
 import TasksContainer from "../components/Task/TasksContainer";
 
 const HomeLayout = () => {
@@ -10,20 +10,24 @@ const HomeLayout = () => {
   // for responsive menu close & open --->
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
     <div className="w-full flex">
       {/* left side navigation panel */}
-      <div
+
+      {/* <div
         className={`fixed xl:relative top-0 ${
           isSidebarOpen ? "left-0" : "-left-full"
         } xl:left-0 min-w-2/12 xl:w-3/12 max-w-[300px] md:max-w-[360px] min-h-screen  bg-primary dark:bg-[#020b3b] p-6 transition-all duration-500 z-50`}
       >
         <Sidebar onToggleSidebar={toggleSidebar} setIsSidebarOpen={setIsSidebarOpen}/>
-      </div>
+      </div> */}
+
       {/* right side dashboard content */}
-      <div className="w-full bg-gray-100">
+      <div className="w-full bg-gray-50">
         {/* Mobile menu open & close button */}
-        <button
+
+        {/* <button
           className="xl:hidden p-3 text-primary bg-white shadow-lg border absolute top-[26px] right-[190px] rounded-xl z-50 tooltip tooltip-bottom"
           data-tip="Open Sidebar"
           onClick={toggleSidebar}
@@ -33,9 +37,10 @@ const HomeLayout = () => {
           ) : (
             <IoMenu size={27} className="text-primary" />
           )}
-        </button>
-        {/* Mobile menu open & close button */}
-        <div className="p-8 bg-base-200 h-full dark:bg-[#020825]">
+        </button> */}
+
+        {/* Main content */}
+        <div className="pt-24 pb-10 w-11/12 mx-auto max-w-[1920px] bg-gray-50 h-full dark:bg-[#020825]">
           {/* Header */}
           <div className="dark:text-white duration-500">
             <h1 className="text-2xl md:text-3xl font-bold tracking-widest">
