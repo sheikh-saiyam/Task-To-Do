@@ -177,7 +177,7 @@ pnpm start  # Or use npm start
 
 ## 📷 Project Home Page Image
 
-![Home Page](https://i.ibb.co.com/TqFNnBDQ/Screenshot-2025-02-22-115405.png)
+![Home Page](https://i.ibb.co/TB8NYv3k/screencapture-localhost-5173-2025-05-17-22-43-23.png)
 
 ## 🤝 Contributing
 
