@@ -120,6 +120,7 @@ export default function Navbar() {
 
         <Separator orientation="vertical" className="-ml-2 mr-4" />
 
+        {/* user dropdown */}
         <div className="flex items-center gap-3">
           {user && (
             <DropdownMenu>

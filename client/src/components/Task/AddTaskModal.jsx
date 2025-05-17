@@ -1,23 +1,51 @@
-import { RxCross1 } from "react-icons/rx";
-import useAuth from "../../hooks/useAuth";
+import { Button } from "@/components/ui/button";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 import useTasks from "../../hooks/useTasks";
+import { Textarea } from "../ui/textarea";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { MdError } from "react-icons/md";
+import { toast } from "sonner";
 
 const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
   const { user } = useAuth();
   const [, , refetch] = useTasks();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const api_url = import.meta.env.VITE_API_URL;
 
-  // Function for post task in db --->
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
+
+    // validations
     if (title.length > 50) {
-      return Swal.fire("Title should be less than 50 characters");
+      setLoading(false);
+      return setError("Title should be less than 50 characters");
     }
+    if (description.length > 300) {
+      setLoading(false);
+      return setError("Description should be less than 300 characters");
+    }
+
     const task = {
       title,
       description,
@@ -26,90 +54,87 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
       email: user.email,
       username: user.displayName,
     };
+
     try {
-      // Post task in db --->
       const { data } = await axios.post(`${api_url}/add-task`, task);
-      // Show Success Modal --->
       if (data.insertedId) {
         refetch();
         form.reset();
+        setError("");
+        setLoading(false);
         setIsModalOpen(false);
-        Swal.fire({
-          icon: "success",
-          title: "Task Added In To-Do List",
+        toast.success("Task Added In To-Do List", {
+          position: "top-right",
+          style: {
+            marginTop: "35px",
+          },
         });
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-      });
+      setError(error.message || "Error caught while add task!");
+      setLoading(false);
     }
   };
+
   return (
-    <div
-      className={`${
-        isModalOpen ? "visible" : "invisible"
-      } w-full h-screen fixed top-0 left-0 z-[200000000] bg-[#171717b9] transition-all duration-300 flex items-center justify-center`}
-    >
-      <div
-        className={`${
-          isModalOpen ? "scale-[1] opacity-100" : "scale-[0] opacity-0"
-        } w-[90%] sm:w-[80%] md:w-[65%] lg:w-[40%] bg-[#fff] rounded-lg transition-all duration-300 mx-auto mt-8`}
-      >
-        <div className="w-full flex p-4 justify-between border-b border-[#d1d1d1]">
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader className="mt-4 flex justify-between">
           <div>
-            <h1 className="mt-[2px] text-[1.5rem] font-bold">Add A Task</h1>
-            <h3 className="mt-1 text-base font-medium">
+            <DialogTitle>Add A Task</DialogTitle>
+            <DialogDescription className="mt-1">
               Stay organized and manage your tasks efficiently. Fill in the
-              details below to add a new task.
-            </h3>
+              details below to add <br /> a new task.
+            </DialogDescription>
           </div>
-          <RxCross1
-            className="p-1 text-[2.5rem] hover:bg-[#e7e7e7] rounded-full transition-all duration-300 cursor-pointer"
-            onClick={() => setIsModalOpen(false)}
-          />
-        </div>
-        {/* Task Form  */}
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Task Title */}
-          <div className="w-full md:w-[100%]">
-            <label htmlFor="title" className="text-[15px] text-text font-[500]">
-              Title
-            </label>
-            <input
+          <div className="space-y-1">
+            <Label htmlFor="title">Title</Label>
+            <Input
               type="text"
               name="title"
               placeholder="Task Title"
-              className="border-border border rounded-md outline-none px-4 w-full mt-1 py-3 focus:border-primary transition-colors duration-300"
+              id="title"
+              required
             />
           </div>
-          {/* Title Description */}
-          <div className="w-full md:w-[100%]">
-            <label
-              htmlFor="description"
-              className="font-[500] text-[15px] text-text"
-            >
-              Description
-            </label>
-            <textarea
+          {/* Task Description */}
+          <div className="space-y-1">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
               name="description"
               placeholder="Task Description"
-              className="border-border border rounded-md outline-none mt-1 px-4 w-full py-3 min-h-[200px] focus:border-primary transition-colors duration-300"
+              required
+              rows={5}
             />
           </div>
+
+          {/* error */}
+          {error && (
+            <div className="text-red-500 flex items-center gap-1">
+              <MdError />
+              {error}
+            </div>
+          )}
+
           {/* Submit Button */}
-          <div className="w-2/3 mx-auto">
-            <button
-              type="submit"
-              className="btn w-full hover:bg-[#006eff] bg-primary text-white font-semibold "
-            >
-              Add Task
-            </button>
-          </div>
+          <Button disabled={loading} type="submit" className="w-full">
+            {loading ? (
+              <span className="flex items-center gap-1">
+                <Loader2 />
+                Adding Task...
+              </span>
+            ) : (
+              "Add Task"
+            )}
+          </Button>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

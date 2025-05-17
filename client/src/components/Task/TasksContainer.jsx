@@ -102,12 +102,18 @@ const TasksContainer = () => {
                 refetch();
                 toast.success("Your task has been deleted.", {
                   position: "top-right",
+                  style: {
+                    marginTop: "35px",
+                  },
                 });
               }
             } catch (error) {
               toast.error("Failed to delete the task", {
                 description: error?.message,
                 position: "top-right",
+                style: {
+                  marginTop: "35px",
+                },
               });
             }
           },
