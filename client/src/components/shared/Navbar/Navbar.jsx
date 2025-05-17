@@ -41,7 +41,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-11/12 mx-auto max-w-[1920px]">
-      <div className="flex h-16 items-center">
+      <div className="flex h-[72px] items-center">
         <div className="flex items-center gap-4">
           {/* <Sheet>
             <SheetTrigger asChild>

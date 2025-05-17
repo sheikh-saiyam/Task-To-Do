@@ -18,7 +18,7 @@ const HomeLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <div className="w-full flex h-screen">
+    <div className="w-full flex min-h-screen">
       {/* left side navigation panel */}
 
       {/* <div

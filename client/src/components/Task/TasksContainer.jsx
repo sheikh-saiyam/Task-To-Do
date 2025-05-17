@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import UpdateTaskModal from "./UpdateTaskModal";
+import TaskSkeleton from "./TaskSkeleton";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
@@ -130,7 +131,7 @@ const TasksContainer = () => {
   );
 
   // Show loader
-  if (isLoading) return <div className="bg-white h-screen dark:bg-[#020b3b]" />;
+  if (isLoading) return <TaskSkeleton />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -144,7 +145,7 @@ const TasksContainer = () => {
                 className="p-4 mb-2 w-full h-fit min-h-[120px]"
               >
                 <CardHeader className="flex flex-row justify-between items-center">
-                  <CardTitle className="text-3xl font-[700] capitalize">
+                  <CardTitle className="text-2xl md:text-3xl font-[700] capitalize">
                     {category.replace("-", " ")}
                   </CardTitle>
 
@@ -175,11 +176,13 @@ const TasksContainer = () => {
                           className="p-4 mt-4 drop-shadow-sm shadow-sm shadow-gray-200 cursor-pointer border-gray-200 bg-gray-50"
                         >
                           <CardHeader className="p-0">
-                            <CardDescription>{task?.timestamp}</CardDescription>
-                            <CardTitle className="pt-1">
+                            <CardDescription className="text-xs md:text-sm">
+                              {task?.timestamp}
+                            </CardDescription>
+                            <CardTitle className="text-xl md:text-2xl pt-1">
                               {task?.title}
                             </CardTitle>{" "}
-                            <CardDescription className="line-clamp-7 text-base whitespace-pre-line">
+                            <CardDescription className="text-sm line-clamp-6 md:text-base whitespace-pre-line">
                               {task?.description}
                             </CardDescription>
                           </CardHeader>
