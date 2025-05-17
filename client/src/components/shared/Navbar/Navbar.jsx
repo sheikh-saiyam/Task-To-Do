@@ -1,77 +1,162 @@
-import useAuth from "../../../hooks/useAuth";
-import { IoMenu } from "react-icons/io5";
-import { SlLogout } from "react-icons/sl";
-import ThemeToggle from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import useAuth from "@/hooks/useAuth";
+import { LayoutDashboard, LogOut, Menu, Moon, Plus, Sun } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link, useLocation } from "react-router-dom";
 
-const Navbar = () => {
+export default function Navbar() {
+  const pathname = useLocation();
   const { user, logOut } = useAuth();
-  return (
-    <nav className="px-[20px] mx-auto py-4 flex items-center justify-between relative border-b-2 border-white">
-      {/* logo */}
-      <img
-        src="https://i.ibb.co.com/TxNBJ5pW/todo.png"
-        alt="Task To Do logo"
-        className="w-[70px] shadow rounded-[20px] shadow-primary dark:shadow-none"
-      />
+  const location = pathname.pathname;
 
-      <div className="flex items-center gap-6">
-        {/* Profile */}
-        <div className="items-center gap-[10px] flex">
-          {user && (
-            <div className="dropdown hover:dropdown-open dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn flex items-center bg-white border-none duration-300 hover:text-white rounded-full avatar text-primary dark:text-[#020b3b] dark:hover:bg-[#d3d3d3] hover:bg-[#0f9fff]"
-              >
-                <div>
-                  <span>
-                    <IoMenu size={35} />
-                  </span>
-                </div>
-                <div className="w-10 rounded-full">
-                  <img
-                    referrerPolicy="no-referrer"
-                    alt={user?.displayName}
-                    src={user?.photoURL}
-                  />
-                </div>
+  const routes = [
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
+      active: location === "/dashboard",
+    },
+    {
+      href: "/add-task",
+      label: "Add Task",
+      icon: <Plus className="mr-2 h-4 w-4" />,
+      active: location === "/add-task",
+    },
+  ];
+
+  return (
+    <nav className="border-b bg-background">
+      <div className="flex h-16 items-center px-4 md:px-6">
+        <div className="flex items-center gap-4">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetHeader>
+                <SheetTitle>Navigation</SheetTitle>
+              </SheetHeader>
+              <div className="grid gap-2 py-6">
+                {routes.map((route) => (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className={`flex items-center rounded-md px-3 py-2 text-sm font-medium ${
+                      route.active
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-muted"
+                    }`}
+                  >
+                    {route.icon}
+                    {route.label}
+                  </Link>
+                ))}
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded mt-1 z-10 w-max p-4 shadow border"
+            </SheetContent>
+          </Sheet>
+
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/placeholder.svg?height=40&width=40"
+              alt="Task To Do logo"
+              className="h-10 w-10 rounded-md shadow-sm"
+            />
+            <span className="hidden font-bold md:inline-block">Task To Do</span>
+          </Link>
+        </div>
+
+        <div className="hidden md:flex md:flex-1 md:items-center md:justify-center">
+          <nav className="flex items-center space-x-1">
+            {routes.map((route) => (
+              <Link
+                key={route.href}
+                href={route.href}
+                className={`flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  route.active
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-muted"
+                }`}
               >
-                <div className="flex gap-4 items-start">
-                  <div>
-                    <img
+                {route.icon}
+                {route.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon">
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+
+          {user && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-9 w-9 rounded-full"
+                >
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage
+                      src={user.photoURL || "/placeholder.svg"}
+                      alt={user.displayName}
                       referrerPolicy="no-referrer"
-                      className="mx-auto w-14 h-14 rounded-full mt-[7px] mb-2"
-                      src={user?.photoURL}
-                      alt={user?.displayName}
                     />
+                    <AvatarFallback>
+                      {user.displayName?.charAt(0) || "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">{user.displayName}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {user.email}
+                    </p>
                   </div>
-                  <div>
-                    <p className="font-semibold my-1">{user?.displayName}</p>
-                    <p className="font-semibold my-1">{user.email}</p>
-                    {/* Logout Button */}
-                    <div className="w-full mt-3">
-                      <button
-                        onClick={logOut}
-                        className="btn  duration-300  rounded w-full btn-sm bg-white text-primary hover:bg-primary hover:text-white border-primary hover dark:hover:bg-[#020825] dark:border-[#020825] tracking-wide text-lg font-semibold dark:text-[#020825] dark:hover:text-white"
-                      >
-                        <SlLogout /> Logout
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </ul>
-            </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">Settings</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                  onClick={logOut}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
-          <ThemeToggle />
         </div>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
