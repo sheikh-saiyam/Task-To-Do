@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,9 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import {
   Select,
   SelectContent,
@@ -16,13 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import useTasks from "../../hooks/useTasks";
+import { Textarea } from "@/components/ui/textarea";
+
 import axios from "axios";
-import Swal from "sweetalert2";
-import { toast } from "sonner";
-import { MdError } from "react-icons/md";
 import { Loader2 } from "lucide-react";
+import { MdError } from "react-icons/md";
+import useTasks from "../../hooks/useTasks";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const UpdateTaskModal = ({ task, open, setOpen }) => {
   const [, , refetch] = useTasks();
