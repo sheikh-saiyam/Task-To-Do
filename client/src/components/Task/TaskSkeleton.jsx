@@ -16,20 +16,20 @@ const TaskSkeleton = () => {
             <Skeleton className="h-6 w-16" />
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="mt-2 space-y-4">
             {[...Array(3)].map((_, j) => (
               <Card key={j} className="p-4 bg-gray-50 border shadow-sm">
                 <CardHeader className="p-0 space-y-2">
-                  <Skeleton className="h-3 w-24" /> {/* timestamp */}
-                  <Skeleton className="h-5 w-3/4" /> {/* title */}
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-[90%]" />
-                  <Skeleton className="h-4 w-[80%]" />
+                  <Skeleton className="bg-gray-300/70 mb-1 h-3 w-24" /> {/* timestamp */}
+                  <Skeleton className="bg-gray-300 h-5 w-3/4" /> {/* title */}
+                  <Skeleton className="bg-gray-300/80 h-4 w-full" />
+                  <Skeleton className="bg-gray-300/80 h-4 w-[90%]" />
+                  <Skeleton className="bg-gray-300/80 h-4 w-[80%]" />
                 </CardHeader>
 
                 <CardFooter className="p-0 mt-4 flex gap-2">
-                  <Skeleton className="h-10 w-10 rounded-md" />
-                  <Skeleton className="h-10 w-10 rounded-md" />
+                  <Skeleton className="bg-gray-300 h-10 w-10 rounded-md" />
+                  <Skeleton className="bg-gray-300 h-10 w-10 rounded-md" />
                 </CardFooter>
               </Card>
             ))}

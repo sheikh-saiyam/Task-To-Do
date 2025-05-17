@@ -22,7 +22,7 @@ const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
 
   // Get all tasks
-  const [tasks, isLoading, refetch] = useTasks();
+  const [tasks, isLoading, refetch, isError] = useTasks();
 
   // State for tasks
   const [taskData, setTaskData] = useState({
@@ -131,7 +131,7 @@ const TasksContainer = () => {
   );
 
   // Show loader
-  if (isLoading) return <TaskSkeleton />;
+  if (isLoading || isError) return <TaskSkeleton />;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

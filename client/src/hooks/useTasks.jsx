@@ -10,6 +10,7 @@ const useTasks = () => {
     data: tasks = [],
     isLoading,
     refetch,
+    isError
   } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
@@ -18,7 +19,7 @@ const useTasks = () => {
     },
   });
 
-  return [tasks, isLoading, refetch];
+  return [tasks, isLoading, refetch, isError];
 };
 
 export default useTasks;
