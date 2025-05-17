@@ -110,10 +110,10 @@ export default function Navbar() {
               onClick={() => {
                 setIsModalOpen(true);
               }}
-              className={`flex items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors hover:bg-muted`}
+              className={`hidden xs:flex items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors bg-muted/60 hover:bg-muted-foreground/10 border border-muted xs:border-none `}
             >
               <Plus />
-              Add Task
+              <span className="hidden xs:flex">Add Task</span>
             </button>
           </nav>
         </div>

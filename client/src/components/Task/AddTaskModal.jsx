@@ -11,13 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import axios from "axios";
-import Swal from "sweetalert2";
+import { Loader2 } from "lucide-react";
+import { MdError } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
 import useTasks from "../../hooks/useTasks";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
-import { MdError } from "react-icons/md";
 import { toast } from "sonner";
 
 const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
@@ -78,15 +77,13 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader className="mt-4 flex justify-between">
-          <div>
-            <DialogTitle>Add A Task</DialogTitle>
-            <DialogDescription className="mt-1">
-              Stay organized and manage your tasks efficiently. Fill in the
-              details below to add <br /> a new task.
-            </DialogDescription>
-          </div>
+      <DialogContent className="w-full max-w-[95%] sm:max-w-[500px]">
+        <DialogHeader className="mt-4 flex text-left justify-between">
+          <DialogTitle>Add A Task</DialogTitle>
+          <DialogDescription className="mt-1">
+            Stay organized and manage your tasks efficiently. Fill in the
+            details below to add <br className="hidden sm:flex" /> a new task.
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">

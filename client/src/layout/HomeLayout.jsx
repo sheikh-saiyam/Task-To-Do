@@ -5,11 +5,16 @@ import useAuth from "../hooks/useAuth";
 import Sidebar from "./../components/Sidebar/Sidebar";
 import TasksContainer from "../components/Task/TasksContainer";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import AddTaskModal from "@/components/Task/AddTaskModal";
 
 const HomeLayout = () => {
   const { user } = useAuth();
-  // for responsive menu close & open --->
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
@@ -44,15 +49,27 @@ const HomeLayout = () => {
         <div className="pt-24 pb-10 w-11/12 mx-auto max-w-[1920px] bg-gray-50 h-full dark:bg-[#020825]">
           {/* Header */}
           <div className="dark:text-white duration-500 space-y-2">
-            <h1 className="scroll-m-20 text-3xl font-extrabold text-black/85">
+            <h1 className="scroll-m-20 text-2xl xs:text-3xl font-extrabold text-black/85">
               Welcome, {user?.displayName}
             </h1>
-            <p className="leading-7 text-lg md:text-xl text-gray-950 max-w-2xl">
+            <p className="leading-7 xs:text-lg md:text-xl text-gray-950 max-w-2xl">
               Easily add, update, delete, and view your tasks in one place. Stay
               organized and boost your productivity!
             </p>
           </div>
 
+          <div className="mt-4 md:mt-2 flex justify-end ">
+            <Button
+              size="sm"
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              <Plus /> Add Task
+            </Button>
+          </div>
           <Separator className="w-full mt-4" />
 
           {/* Tasks Container */}
@@ -61,6 +78,8 @@ const HomeLayout = () => {
           </div>
         </div>
       </div>
+      {/* AddTaskModal */}
+      <AddTaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 };
