@@ -7,6 +7,17 @@ import { FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UpdateTaskModal from "./UpdateTaskModal";
 import useUpdateTaskCategory from "../../hooks/useUpdateTaskCategory";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
+import { Button } from "../ui/button";
+import { Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
@@ -120,64 +131,73 @@ const TasksContainer = () => {
         {Object.keys(taskData).map((category) => (
           <Droppable key={category} droppableId={category}>
             {(provided) => (
-              <div
+              <Card
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="p-6 mb-2 bg-white dark:bg-[#020b3b] rounded-lg w-full shadow-sm h-fit min-h-[120px]"
+                className="p-4 mb-2 w-full h-fit min-h-[120px]"
               >
-                <h1 className="text-2xl font-semibold tracking-wide capitalize dark:text-white">
-                  {category.replace("-", " ")}
-                </h1>
-                {taskData[category].map((task, index) => (
-                  <Draggable
-                    key={task._id.toString()}
-                    draggableId={task._id.toString()}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className="bg-gray-200 dark:bg-[#020825] dark:text-white p-4 dark:shadow-none mt-4 rounded-md drop-shadow shadow shadow-gray-300 cursor-pointer border-gray-200"
-                      >
-                        <h1 className="text-xl md:text-2xl font-semibold tracking-wider dark:font-bold">
-                          {task.title}
-                        </h1>
-                        <h3 className="text-lg mt-2 font-normal tracking-wide text-gray-700 whitespace-pre-line dark:text-white dark:font-medium">
-                          {task.description}
-                        </h3>
-                        {/* Delete And Update Btn */}
-                        <div className="mt-4 flex items-start gap-4 w-full">
-                          {/* Update Btn */}
-                          <button
-                            onClick={() =>
-                              document
-                                .getElementById(`modal-${task._id}`)
-                                .showModal()
-                            }
-                            className="btn tooltip hover:bg-white text-blue-500"
-                            data-tip="Update Task"
-                          >
-                            <FaRegEdit size={30} />
-                            {/* Update Modal */}
-                            <UpdateTaskModal task={task} />
-                          </button>
-                          {/* Delete Btn */}
-                          <button
-                            onClick={() => handleDelete(task._id)}
-                            className="btn tooltip hover:bg-white text-red-500"
-                            data-tip="Delete Task"
-                          >
-                            <MdDeleteForever size={30} />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                <CardHeader>
+                  <CardTitle className="text-3xl font-[700]">
+                    {category.replace("-", " ")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {taskData[category].map((task, index) => (
+                    <Draggable
+                      key={task._id.toString()}
+                      draggableId={task._id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Card
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="p-4 mt-4 drop-shadow-sm shadow-sm shadow-gray-200 cursor-pointer border-gray-200 bg-gray-50"
+                        >
+                          <CardHeader className="p-0">
+                            <CardTitle> {task?.title}</CardTitle>{" "}
+                            <CardDescription>
+                              {task?.description}
+                            </CardDescription>
+                          </CardHeader>
+
+                          {/* Delete And Update Btn */}
+                          <CardFooter className="p-0">
+                            <div className="mt-4 flex items-start gap-4 w-full">
+                              {/* Update Btn */}
+                              <Button
+                                onClick={() =>
+                                  document
+                                    .getElementById(`modal-${task?._id}`)
+                                    .showModal()
+                                }
+                                variant="outline"
+                                className="tooltip text-blue-500"
+                                data-tip="Update Task"
+                              >
+                                <Edit size={30} />
+                                {/* Update Modal */}
+                                <UpdateTaskModal task={task} />
+                              </Button>
+                              {/* Delete Btn */}
+                              <Button
+                                variant="outline"
+                                onClick={() => handleDelete(task?._id)}
+                                className="tooltip text-destructive"
+                                data-tip="Delete Task"
+                              >
+                                <Trash size={30} />
+                              </Button>
+                            </div>
+                          </CardFooter>
+                        </Card>
+                      )}
+                    </Draggable>
+                  ))}
+                </CardContent>
                 {provided.placeholder}
-              </div>
+              </Card>
             )}
           </Droppable>
         ))}

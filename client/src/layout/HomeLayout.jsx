@@ -4,6 +4,7 @@ import { IoMenu } from "react-icons/io5";
 import useAuth from "../hooks/useAuth";
 import Sidebar from "./../components/Sidebar/Sidebar";
 import TasksContainer from "../components/Task/TasksContainer";
+import { Separator } from "@/components/ui/separator";
 
 const HomeLayout = () => {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ const HomeLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <div className="w-full flex">
+    <div className="w-full flex h-screen">
       {/* left side navigation panel */}
 
       {/* <div
@@ -42,15 +43,18 @@ const HomeLayout = () => {
         {/* Main content */}
         <div className="pt-24 pb-10 w-11/12 mx-auto max-w-[1920px] bg-gray-50 h-full dark:bg-[#020825]">
           {/* Header */}
-          <div className="dark:text-white duration-500">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-widest">
+          <div className="dark:text-white duration-500 space-y-2">
+            <h1 className="scroll-m-20 text-3xl font-extrabold text-black/85">
               Welcome, {user?.displayName}
             </h1>
-            <h1 className="w-full md:w-2/3 mt-2 text-lg md:text-xl font-medium tracking-wide">
+            <p className="leading-7 text-lg md:text-xl text-gray-950 max-w-2xl">
               Easily add, update, delete, and view your tasks in one place. Stay
               organized and boost your productivity!
-            </h1>
+            </p>
           </div>
+
+          <Separator className="w-full mt-4" />
+
           {/* Tasks Container */}
           <div className="mt-8">
             <TasksContainer />
