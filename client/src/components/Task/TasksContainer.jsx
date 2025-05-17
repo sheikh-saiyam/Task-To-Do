@@ -1,23 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import axios from "axios";
+import { Edit, Trash } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 import useTasks from "../../hooks/useTasks";
-import { MdDeleteForever } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-import Swal from "sweetalert2";
-import UpdateTaskModal from "./UpdateTaskModal";
 import useUpdateTaskCategory from "../../hooks/useUpdateTaskCategory";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "../ui/card";
-import { Button } from "../ui/button";
-import { Trash } from "lucide-react";
-import { Edit } from "lucide-react";
+import UpdateTaskModal from "./UpdateTaskModal";
 
 const TasksContainer = () => {
   const api_url = import.meta.env.VITE_API_URL;
@@ -91,32 +89,35 @@ const TasksContainer = () => {
   // Delete task function
   const handleDelete = useCallback(
     async (id) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#0083ff",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const { data } = await axios.delete(`${api_url}/delete-task/${id}`);
-            if (data.deletedCount) {
-              refetch();
-              Swal.fire({
-                title: "Your Task Deleted",
-                icon: "success",
+      toast("Are you sure you want to delete this task?", {
+        position: "top-right",
+        action: {
+          label: "Yes, delete",
+          onClick: async () => {
+            try {
+              const { data } = await axios.delete(
+                `${api_url}/delete-task/${id}`
+              );
+              if (data.deletedCount) {
+                refetch();
+                toast.success("Your task has been deleted.", {
+                  position: "top-right",
+                });
+              }
+            } catch (error) {
+              toast.error("Failed to delete the task", {
+                description: error?.message,
+                position: "top-right",
               });
             }
-          } catch (error) {
-            Swal.fire({
-              icon: "error",
-              title: error.message,
-            });
-          }
-        }
+          },
+        },
+        cancel: {
+          label: "Cancel",
+        },
+        style: {
+          marginTop: "35px",
+        },
       });
     },
     [api_url, refetch]
@@ -136,10 +137,22 @@ const TasksContainer = () => {
                 {...provided.droppableProps}
                 className="p-4 mb-2 w-full h-fit min-h-[120px]"
               >
-                <CardHeader>
-                  <CardTitle className="text-3xl font-[700]">
+                <CardHeader className="flex flex-row justify-between items-center">
+                  <CardTitle className="text-3xl font-[700] capitalize">
                     {category.replace("-", " ")}
                   </CardTitle>
+
+                  {category === "to-do" && (
+                    <Badge className="bg-gray-500 text-white">To Do</Badge>
+                  )}
+                  {category === "in-progress" && (
+                    <Badge className="bg-yellow-500 text-white">
+                      In Progress
+                    </Badge>
+                  )}
+                  {category === "done" && (
+                    <Badge className="bg-green-600 text-white">Done</Badge>
+                  )}
                 </CardHeader>
                 <CardContent>
                   {taskData[category].map((task, index) => (
@@ -156,15 +169,18 @@ const TasksContainer = () => {
                           className="p-4 mt-4 drop-shadow-sm shadow-sm shadow-gray-200 cursor-pointer border-gray-200 bg-gray-50"
                         >
                           <CardHeader className="p-0">
-                            <CardTitle> {task?.title}</CardTitle>{" "}
-                            <CardDescription>
+                            <CardDescription>{task?.timestamp}</CardDescription>
+                            <CardTitle className="pt-1">
+                              {task?.title}
+                            </CardTitle>{" "}
+                            <CardDescription className="line-clamp-7 text-base whitespace-pre-line">
                               {task?.description}
                             </CardDescription>
                           </CardHeader>
 
                           {/* Delete And Update Btn */}
                           <CardFooter className="p-0">
-                            <div className="mt-4 flex items-start gap-4 w-full">
+                            <div className="mt-4 flex items-start gap-2 w-full">
                               {/* Update Btn */}
                               <Button
                                 onClick={() =>
