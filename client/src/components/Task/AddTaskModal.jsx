@@ -82,7 +82,7 @@ const AddTaskModal = ({ isModalOpen, setIsModalOpen }) => {
           <DialogTitle>Add A Task</DialogTitle>
           <DialogDescription className="mt-1">
             Stay organized and manage your tasks efficiently. Fill in the
-            details below to add <br className="hidden sm:flex" /> a new task.
+            details below to add a new task.
           </DialogDescription>
         </DialogHeader>
 

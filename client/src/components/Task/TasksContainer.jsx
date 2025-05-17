@@ -30,6 +30,7 @@ const TasksContainer = () => {
     "in-progress": [],
     done: [],
   });
+  const [openTaskId, setOpenTaskId] = useState(null);
 
   // Update state when tasks are fetched
   useEffect(() => {
@@ -163,62 +164,67 @@ const TasksContainer = () => {
                 </CardHeader>
                 <CardContent>
                   {taskData[category].map((task, index) => (
-                    <Draggable
-                      key={task._id.toString()}
-                      draggableId={task._id.toString()}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <Card
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="p-4 mt-4 drop-shadow-sm shadow-sm shadow-gray-200 cursor-pointer border-gray-200 bg-gray-50"
-                        >
-                          <CardHeader className="p-0">
-                            <CardDescription className="text-xs md:text-sm">
-                              {task?.timestamp}
-                            </CardDescription>
-                            <CardTitle className="text-xl md:text-2xl pt-1">
-                              {task?.title}
-                            </CardTitle>{" "}
-                            <CardDescription className="text-sm line-clamp-6 md:text-base whitespace-pre-line">
-                              {task?.description}
-                            </CardDescription>
-                          </CardHeader>
+                    <>
+                      <Draggable
+                        key={task._id.toString()}
+                        draggableId={task._id.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Card
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="p-4 mt-4 drop-shadow-sm shadow-sm shadow-gray-200 cursor-pointer border-gray-200 bg-gray-50"
+                          >
+                            <CardHeader className="p-0">
+                              <CardDescription className="text-xs md:text-sm">
+                                {task?.timestamp}
+                              </CardDescription>
+                              <CardTitle className="text-xl md:text-2xl pt-1">
+                                {task?.title}
+                              </CardTitle>{" "}
+                              <CardDescription className="text-sm line-clamp-6 md:text-base whitespace-pre-line">
+                                {task?.description}
+                              </CardDescription>
+                            </CardHeader>
 
-                          {/* Delete And Update Btn */}
-                          <CardFooter className="p-0">
-                            <div className="mt-4 flex items-start gap-2 w-full">
-                              {/* Update Btn */}
-                              <Button
-                                onClick={() =>
-                                  document
-                                    .getElementById(`modal-${task?._id}`)
-                                    .showModal()
-                                }
-                                variant="outline"
-                                className="tooltip text-blue-500"
-                                data-tip="Update Task"
-                              >
-                                <Edit size={30} />
-                                {/* Update Modal */}
-                                <UpdateTaskModal task={task} />
-                              </Button>
-                              {/* Delete Btn */}
-                              <Button
-                                variant="outline"
-                                onClick={() => handleDelete(task?._id)}
-                                className="tooltip text-destructive"
-                                data-tip="Delete Task"
-                              >
-                                <Trash size={30} />
-                              </Button>
-                            </div>
-                          </CardFooter>
-                        </Card>
-                      )}
-                    </Draggable>
+                            {/* Delete And Update Btn */}
+                            <CardFooter className="p-0">
+                              <div className="mt-4 flex items-start gap-2 w-full">
+                                {/* Update Btn */}
+                                <Button
+                                  onClick={() => setOpenTaskId(task._id)}
+                                  variant="outline"
+                                  className="tooltip text-blue-500"
+                                  data-tip="Update Task"
+                                >
+                                  <Edit size={30} />
+                                </Button>
+                                {/* Delete Btn */}
+                                <Button
+                                  variant="outline"
+                                  onClick={() => handleDelete(task?._id)}
+                                  className="tooltip text-destructive"
+                                  data-tip="Delete Task"
+                                >
+                                  <Trash size={30} />
+                                </Button>
+                              </div>
+                            </CardFooter>
+                          </Card>
+                        )}
+                      </Draggable>
+
+                      {/* Update Modal */}
+                      <UpdateTaskModal
+                        task={task}
+                        open={openTaskId === task._id}
+                        setOpen={(state) =>
+                          setOpenTaskId(state ? task._id : null)
+                        }
+                      />
+                    </>
                   ))}
                 </CardContent>
                 {provided.placeholder}

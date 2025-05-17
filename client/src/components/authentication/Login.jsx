@@ -62,7 +62,7 @@ const Login = () => {
             <CardTitle className="text-lg xs:text-2xl">
               Welcome To Task-To-Do!
             </CardTitle>
-            <CardDescription className="mt-2 text-[12px] xs:text-[18px] font-medium">
+            <CardDescription className="mt-2 text-[12px] xs:text-[18px] font-medium text-gray-800">
               Stay organized and boost your productivity with ease. Manage your
               tasks effortlessly and stay ahead of your goals. To access the
               app, you must be logged in.

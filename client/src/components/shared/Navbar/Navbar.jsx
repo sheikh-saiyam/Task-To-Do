@@ -23,6 +23,7 @@ import { useState } from "react";
 import { User } from "lucide-react";
 import { FaTasks } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const pathname = useLocation();
@@ -160,7 +161,12 @@ export default function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer text-destructive focus:text-destructive"
-                  onClick={logOut}
+                  onClick={() => {
+                    logOut();
+                    toast.success("You have been logged out successfully!", {
+                      position: "top-right",
+                    });
+                  }}
                 >
                   <LogOut className="mr-0.5 h-4 w-4" />
                   <span>Logout</span>

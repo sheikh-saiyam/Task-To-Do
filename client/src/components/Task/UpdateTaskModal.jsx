@@ -1,116 +1,165 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+import useTasks from "../../hooks/useTasks";
 import axios from "axios";
 import Swal from "sweetalert2";
-import useTasks from "../../hooks/useTasks";
-import { useState } from "react";
+import { toast } from "sonner";
+import { MdError } from "react-icons/md";
+import { Loader2 } from "lucide-react";
 
-const UpdateTaskModal = ({ task }) => {
+const UpdateTaskModal = ({ task, open, setOpen }) => {
   const [, , refetch] = useTasks();
   const api_url = import.meta.env.VITE_API_URL;
   const categoryOption = ["to-do", "in-progress", "done"];
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(task.category);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
     const category = selectedItem;
+
+    // validations
+    if (title.length > 50) {
+      setLoading(false);
+      return setError("Title should be less than 50 characters");
+    }
+    if (description.length > 300) {
+      setLoading(false);
+      return setError("Description should be less than 300 characters");
+    }
+
     try {
       const { data } = await axios.put(`${api_url}/update-task/${task._id}`, {
         title,
         description,
         category,
       });
+
       if (data.modifiedCount) {
         refetch();
-        document.getElementById(`modal-${task._id}`).close();
-        Swal.fire({
-          icon: "success",
-          title: "Task Updated Successfully",
+        setError("");
+        setOpen(false);
+        setLoading(false);
+        toast.success("Task Updated Successfully!", {
+          position: "top-right",
+          style: {
+            marginTop: "35px",
+          },
+        });
+      } else {
+        setError("");
+        setOpen(false);
+        setLoading(false);
+        toast.info("No changes were made!", {
+          position: "top-right",
+          style: {
+            marginTop: "35px",
+          },
         });
       }
     } catch (error) {
-      Swal.fire({ icon: "error", title: error.message });
+      setError(error.message || "Error caught while update the task!");
+      setLoading(false);
     }
   };
 
   return (
-    <dialog id={`modal-${task._id}`} className="modal text-left">
-      <div className="modal-box text-black">
-        <div className="w-full flex justify-between items-stretch text-black border-b border-[#d1d1d1]">
-          <div>
-            <h1 className="mt-[2px] text-[1.5rem] font-bold text-left">
-              Update Task
-            </h1>
-            <h3 className="mt-2 mb-3 text-base font-medium">
-              Update your task details below and save changes.
-            </h3>
-          </div>
-          <form method="dialog">
-            <button className="btn btn-ghost btn-circle text-2xl">✕</button>
-          </form>
-        </div>
-        {/* Update Task Form  */}
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="w-full max-w-[95%] sm:max-w-[500px]">
+        <DialogHeader className="mt-4 flex text-left justify-between">
+          <DialogTitle>Update Task</DialogTitle>
+          <DialogDescription>
+            Update your task details below and save changes.
+          </DialogDescription>
+        </DialogHeader>{" "}
+        <form onSubmit={handleSubmit}>
           {/* Task Title */}
-          <div className="w-full md:w-[100%]">
-            <label htmlFor="title" className="text-[15px] text-text font-[500]">
+          <div className="grid gap-2 py-2">
+            <label htmlFor="title" className="text-sm font-medium">
               Task Title
             </label>
-            <input
-              type="text"
-              name="title"
-              defaultValue={task.title}
-              placeholder="Task Title"
-              className="border-border border rounded-md outline-none px-4 w-full mt-3 py-3 focus:border-primary font-normal leading-5  transition-colors duration-300"
-            />
+            <Input name="title" defaultValue={task.title} required />
           </div>
+
           {/* Task Description */}
-          <div className="w-full md:w-[100%]">
-            <label
-              htmlFor="description"
-              className="font-[500] text-[15px] text-text"
-            >
+          <div className="grid gap-2 py-2">
+            <label htmlFor="description" className="text-sm font-medium">
               Task Description
             </label>
-            <textarea
+            <Textarea
               name="description"
               defaultValue={task.description}
-              placeholder="Task Description"
-              className="border-border border  font-normal leading-5 rounded-md outline-none mt-3 px-4 w-full py-3 min-h-[200px] focus:border-primary transition-colors duration-300"
+              rows={5}
+              required
             />
           </div>
+
           {/* Task Category */}
-          <div className="w-full md:w-[100%]">
-            <label
-              htmlFor="description"
-              className="font-[500] text-[15px] text-text"
-            >
-              Update Category
-            </label>
-            <select
-              value={selectedItem}
-              onChange={(e) => setSelectedItem(e.target.value)}
-              className="mt-3 select select-bordered w-full"
-            >
-              {categoryOption.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+          <div className="grid gap-2 py-2">
+            <label className="text-sm font-medium">Update Category</label>
+            <Select value={selectedItem} onValueChange={setSelectedItem}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categoryOption.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-          {/* Submit Button */}
-          <div className="w-2/3 mx-auto">
-            <button
-              type="submit"
-              className="btn w-full hover:bg-[#006eff] bg-primary text-white font-semibold "
-            >
-              Update Task
-            </button>
-          </div>
+
+          {/* error */}
+          {error && (
+            <div className="text-red-500 flex items-center gap-1">
+              <MdError />
+              {error}
+            </div>
+          )}
+
+          {/* Submit */}
+          <DialogFooter className="mt-4">
+            <Button disabled={loading} type="submit" className="w-full">
+              {loading ? (
+                <span className="flex items-center gap-1">
+                  <Loader2 />
+                  Updating Task...
+                </span>
+              ) : (
+                "Update Task"
+              )}
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 
